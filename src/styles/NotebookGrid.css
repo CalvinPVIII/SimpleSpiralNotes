@@ -1,0 +1,13 @@
+#empty-message {
+  text-align: center;
+  color: rgb(107, 102, 102);
+}
+
+#notebook-grid {
+  display: grid;
+  margin-top: 10px;
+  position: relative;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  place-items: center;
+}

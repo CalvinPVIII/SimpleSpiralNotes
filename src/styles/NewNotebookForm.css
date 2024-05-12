@@ -1,0 +1,37 @@
+#notebook-form {
+  background-color: #252427;
+  display: flex;
+  flex-flow: column;
+  max-width: 500px;
+  padding-bottom: 50px;
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  max-height: 400px;
+  color: white;
+  border-radius: 5px;
+  box-shadow: 5px 5px 5px 5px rgb(12, 12, 12);
+}
+
+#form-header {
+  background-color: #171515;
+  width: 100%;
+  text-align: center;
+}
+
+#color-selection {
+  display: flex;
+}
+
+#form-content {
+  display: flex;
+  flex-flow: column;
+  padding: 20px;
+}
+
+#confirm-button {
+  margin-top: 20px;
+}
