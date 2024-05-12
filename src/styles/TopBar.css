@@ -7,3 +7,7 @@
   width: 100vw;
   box-shadow: 5px 5px 5px rgb(21, 21, 21);
 }
+
+.top-bar-icon {
+  width: 200px;
+}

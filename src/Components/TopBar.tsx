@@ -9,9 +9,9 @@ interface TopBarProps {
 export default function TopBar(props: TopBarProps) {
   return (
     <div id="top-bar">
-      <SettingsOutlinedIcon />
-      <h2>Home</h2>
-      <AddOutlinedIcon onClick={props.handleOpenModal} />
+      <SettingsOutlinedIcon fontSize="large" />
+      <h1>Simple Spiral Notes</h1>
+      <AddOutlinedIcon onClick={props.handleOpenModal} fontSize="large" />
     </div>
   );
 }
