@@ -2,7 +2,7 @@ import { FabricJSCanvas, useFabricJSEditor } from "fabricjs-react";
 import { useEffect, useRef } from "react";
 import { fabric } from "fabric";
 import { BaseBrush } from "fabric/fabric-impl";
-import lines from "../src/assets/img/lines.png";
+import lines from "../assets/img/lines.png";
 import { useBottomScrollListener } from "react-bottom-scroll-listener";
 export default function NotePage() {
   const { editor, onReady } = useFabricJSEditor();

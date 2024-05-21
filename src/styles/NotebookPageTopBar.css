@@ -1,0 +1,14 @@
+#notebook-page-top-bar {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  justify-content: space-around;
+  background-color: #6582cb;
+  width: 100vw;
+  box-shadow: 5px 5px 5px rgb(21, 21, 21);
+  height: 60px;
+}
+
+.top-bar-icon {
+  width: 200px;
+}
