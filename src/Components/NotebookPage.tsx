@@ -23,7 +23,6 @@ export default function NotebookPage() {
   };
 
   const changePage = (pageIndex: number) => {
-    console.log("ell");
     setCurrentPage(pageIndex);
   };
 

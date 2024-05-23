@@ -21,8 +21,6 @@ export default function NotePage(props: NotePageProps) {
 
   useBottomScrollListener(increaseCanvasHeight);
 
-  console.log(props);
-
   const history: fabric.Object[] = [];
   const defaultBrush = useRef<BaseBrush>();
   useEffect(() => {
@@ -34,11 +32,10 @@ export default function NotePage(props: NotePageProps) {
 
   useEffect(() => {
     if (!editor) return;
-
     editor.canvas.loadFromJSON(JSON.parse(props.pageData === "" ? "{}" : props.pageData), () => {
       editor.canvas.renderAll();
     });
-  }, [props.pageData]);
+  }, [editor, props.pageData]);
 
   const togglePenMode = () => {
     if (!editor) return;
@@ -64,7 +61,6 @@ export default function NotePage(props: NotePageProps) {
   const toggleSelect = () => {
     if (!editor) return;
     editor.canvas.isDrawingMode = !editor.canvas.isDrawingMode;
-    console.log(editor.canvas);
   };
 
   const undo = () => {
@@ -73,6 +69,7 @@ export default function NotePage(props: NotePageProps) {
       history.push(editor.canvas._objects.pop() as fabric.Object);
     }
     editor.canvas.renderAll();
+    handleSave();
   };
 
   const redo = () => {
@@ -80,6 +77,7 @@ export default function NotePage(props: NotePageProps) {
     if (history.length > 0) {
       editor.canvas.add(history.pop() as fabric.Object);
     }
+    handleSave();
   };
 
   const eraserMode = () => {
@@ -91,8 +89,9 @@ export default function NotePage(props: NotePageProps) {
 
   const handleSave = () => {
     if (!editor) return;
-    console.log(editor.canvas.toJSON());
-    props.saveCallback(JSON.stringify(editor.canvas.toJSON()));
+    setTimeout(() => {
+      props.saveCallback(JSON.stringify(editor.canvas.toJSON()));
+    }, 50);
   };
 
   return (
