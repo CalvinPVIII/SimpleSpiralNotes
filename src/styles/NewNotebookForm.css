@@ -10,7 +10,7 @@
   left: 0;
   bottom: 0;
   right: 0;
-  max-height: 400px;
+  height: min-content;
   color: white;
   border-radius: 5px;
   box-shadow: 5px 5px 5px 5px rgb(12, 12, 12);
@@ -34,4 +34,5 @@
 
 #confirm-button {
   margin-top: 20px;
+  margin-bottom: 20px;
 }

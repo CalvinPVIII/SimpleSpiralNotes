@@ -4,7 +4,7 @@ import { allNotebooksSelector } from "../redux/store";
 import NotePage from "./NotePage";
 import NotebookPageTopBar from "./NotebookPageTopBar";
 import { useState } from "react";
-import { deletePageFromNotebook, addPageToNotebook } from "../redux/notebooksSlice";
+import { deletePageFromNotebook, addPageToNotebook, savePage } from "../redux/notebooksSlice";
 export default function NotebookPage() {
   const [currentPage, setCurrentPage] = useState(0);
   const { id } = useParams();
@@ -22,12 +22,21 @@ export default function NotebookPage() {
     }
   };
 
+  const changePage = (pageIndex: number) => {
+    console.log("ell");
+    setCurrentPage(pageIndex);
+  };
+
+  const handleSavePage = (data: string) => {
+    dispatch(savePage({ notebookId: notebook.id, pageIndex: currentPage, data: data }));
+  };
+
   return (
     <>
       {notebook ? (
         <>
-          <NotebookPageTopBar notebook={notebook} currentPage={currentPage} handleDeletePage={deletePage} />
-          <NotePage />
+          <NotebookPageTopBar notebook={notebook} currentPage={currentPage} handleDeletePage={deletePage} handleChangePage={changePage} />
+          <NotePage saveCallback={handleSavePage} pageData={notebook.pages[currentPage]} />
         </>
       ) : (
         <h1>Notebook not found</h1>

@@ -25,9 +25,16 @@ export const notebookSlice = createSlice({
     deletePageFromNotebook: (state, action: PayloadAction<{ notebookId: string; pageIndex: number }>) => {
       state[action.payload.notebookId].pages.splice(action.payload.pageIndex, 1);
     },
+    editNotebook: (state, action: PayloadAction<Notebook>) => {
+      state[action.payload.id] = action.payload;
+    },
+    savePage: (state, action: PayloadAction<{ notebookId: string; data: string; pageIndex: number }>) => {
+      const { notebookId, data, pageIndex } = action.payload;
+      state[notebookId].pages[pageIndex] = data;
+    },
   },
 });
 
-export const { createNotebook, deleteNotebook, addPageToNotebook, deletePageFromNotebook } = notebookSlice.actions;
+export const { createNotebook, deleteNotebook, addPageToNotebook, deletePageFromNotebook, editNotebook, savePage } = notebookSlice.actions;
 
 export default notebookSlice.reducer;

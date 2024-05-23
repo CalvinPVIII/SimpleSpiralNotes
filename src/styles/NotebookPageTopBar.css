@@ -9,6 +9,29 @@
   height: 60px;
 }
 
-.top-bar-icon {
-  width: 200px;
+.delete-modal {
+  background-color: #252427;
+  display: flex;
+  flex-flow: column;
+  max-width: 500px;
+  padding-bottom: 50px;
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  max-height: 400px;
+  color: white;
+  border-radius: 5px;
+  box-shadow: 5px 5px 5px 5px rgb(12, 12, 12);
+  /* justify-content: center; */
+  text-align: center;
+}
+
+.modal-header {
+  background-color: #171515;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 50px;
 }

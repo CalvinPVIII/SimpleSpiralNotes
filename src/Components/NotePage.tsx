@@ -2,9 +2,15 @@ import { FabricJSCanvas, useFabricJSEditor } from "fabricjs-react";
 import { useEffect, useRef } from "react";
 import { fabric } from "fabric";
 import { BaseBrush } from "fabric/fabric-impl";
-import lines from "../assets/img/lines.png";
+import "../styles/NotePage.css";
 import { useBottomScrollListener } from "react-bottom-scroll-listener";
-export default function NotePage() {
+
+interface NotePageProps {
+  saveCallback: (data: string) => void;
+  pageData: string;
+}
+
+export default function NotePage(props: NotePageProps) {
   const { editor, onReady } = useFabricJSEditor();
 
   const increaseCanvasHeight = () => {
@@ -15,6 +21,8 @@ export default function NotePage() {
 
   useBottomScrollListener(increaseCanvasHeight);
 
+  console.log(props);
+
   const history: fabric.Object[] = [];
   const defaultBrush = useRef<BaseBrush>();
   useEffect(() => {
@@ -22,8 +30,15 @@ export default function NotePage() {
     editor.canvas.setHeight(2000);
     editor.canvas.isDrawingMode = true;
     defaultBrush.current = editor.canvas.freeDrawingBrush;
-    document.body.style.backgroundImage = `url(${lines})`;
   }, [editor]);
+
+  useEffect(() => {
+    if (!editor) return;
+
+    editor.canvas.loadFromJSON(JSON.parse(props.pageData === "" ? "{}" : props.pageData), () => {
+      editor.canvas.renderAll();
+    });
+  }, [props.pageData]);
 
   const togglePenMode = () => {
     if (!editor) return;
@@ -74,6 +89,12 @@ export default function NotePage() {
     editor.canvas.freeDrawingBrush.width = 20;
   };
 
+  const handleSave = () => {
+    if (!editor) return;
+    console.log(editor.canvas.toJSON());
+    props.saveCallback(JSON.stringify(editor.canvas.toJSON()));
+  };
+
   return (
     <>
       <button onClick={togglePenMode}>add pen</button>
@@ -84,7 +105,7 @@ export default function NotePage() {
       <button onClick={redo}>redo</button>
       <button onClick={eraserMode}>erase</button>
 
-      <div>
+      <div id="note-page" onMouseUp={handleSave}>
         <FabricJSCanvas className="sample-canvas" onReady={onReady} />
       </div>
     </>
