@@ -40,15 +40,6 @@
   -webkit-border-radius: 50%;
   width: 30px;
 }
-.black {
-  background-color: #000000;
-}
-.blue {
-  background-color: #002aff;
-}
-.red {
-  background-color: #ff0000;
-}
 
 .show-pen {
   display: flex;

@@ -10,7 +10,7 @@ import { useState } from "react";
 import { Button } from "@mui/material";
 
 interface NoteControlsProps {
-  togglePenMode: () => void;
+  togglePenMode: (color: string) => void;
   toggleHighlighter: () => void;
   toggleSelect: () => void;
   changeColor: () => void;
@@ -18,6 +18,12 @@ interface NoteControlsProps {
   redo: () => void;
   toggleEraser: () => void;
 }
+
+const defaultPenColors = {
+  black: "#000000",
+  blue: "#002aff",
+  red: "#ff0000",
+};
 
 export default function NoteControls(props: NoteControlsProps) {
   const [penOptionsHidden, setPenOptionsHidden] = useState<"hide-pen" | "hide-pen-display-none" | "show-pen">("hide-pen-display-none");
@@ -33,20 +39,25 @@ export default function NoteControls(props: NoteControlsProps) {
     }
   };
 
+  const handlePenSelect = (color: string) => {
+    props.togglePenMode(color);
+    togglePenOptions();
+  };
+
   return (
     <>
       <div id="note-controls-wrapper">
         <div className={`pen-options ${penOptionsHidden}`}>
-          <Button onClick={props.togglePenMode}>
-            <div className="color-option black"></div>
+          <Button onClick={() => handlePenSelect(defaultPenColors.black)}>
+            <div className="color-option" style={{ backgroundColor: defaultPenColors.black }}></div>
           </Button>
-          <Button onClick={props.togglePenMode}>
-            <div className="color-option blue"></div>
+          <Button onClick={() => handlePenSelect(defaultPenColors.blue)}>
+            <div className="color-option" style={{ backgroundColor: defaultPenColors.blue }}></div>
           </Button>
-          <Button onClick={props.togglePenMode}>
-            <div className="color-option red"></div>
+          <Button onClick={() => handlePenSelect(defaultPenColors.red)}>
+            <div className="color-option" style={{ backgroundColor: defaultPenColors.red }}></div>
           </Button>
-          <Button onClick={props.togglePenMode}>
+          <Button>
             <SettingsOutlinedIcon color="secondary" />
           </Button>
         </div>

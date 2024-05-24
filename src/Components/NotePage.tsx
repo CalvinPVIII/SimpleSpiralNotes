@@ -23,7 +23,6 @@ export default function NotePage(props: NotePageProps) {
 
   useBottomScrollListener(increaseCanvasHeight);
 
-  // const history: fabric.Object[] = [];
   const defaultBrush = useRef<BaseBrush>();
   useEffect(() => {
     if (!editor) return;
@@ -39,13 +38,13 @@ export default function NotePage(props: NotePageProps) {
     });
   }, [editor, props.pageData]);
 
-  const togglePenMode = () => {
+  const togglePenMode = (color: string) => {
     if (!editor) return;
     if (!defaultBrush.current) return;
     editor.canvas.freeDrawingBrush = new fabric.BaseBrush();
     editor.canvas.isDrawingMode = true;
     editor.canvas.freeDrawingBrush = defaultBrush.current;
-    editor.canvas.freeDrawingBrush.color = "rgba(0, 0, 0, 1)";
+    editor.canvas.freeDrawingBrush.color = color;
     editor.canvas.freeDrawingBrush.width = 1;
   };
 
