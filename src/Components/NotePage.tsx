@@ -1,5 +1,5 @@
 import { FabricJSCanvas, useFabricJSEditor } from "fabricjs-react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { fabric } from "fabric";
 import { BaseBrush } from "fabric/fabric-impl";
 import "../styles/NotePage.css";
@@ -13,6 +13,7 @@ interface NotePageProps {
 
 export default function NotePage(props: NotePageProps) {
   const { editor, onReady } = useFabricJSEditor();
+  const [history, setHistory] = useState<fabric.Object[]>([]);
 
   const increaseCanvasHeight = () => {
     if (!editor) return;
@@ -22,7 +23,7 @@ export default function NotePage(props: NotePageProps) {
 
   useBottomScrollListener(increaseCanvasHeight);
 
-  const history: fabric.Object[] = [];
+  // const history: fabric.Object[] = [];
   const defaultBrush = useRef<BaseBrush>();
   useEffect(() => {
     if (!editor) return;
@@ -72,7 +73,7 @@ export default function NotePage(props: NotePageProps) {
   const undo = () => {
     if (!editor) return;
     if (editor.canvas._objects.length > 0) {
-      history.push(editor.canvas._objects.pop() as fabric.Object);
+      setHistory(history.concat(editor.canvas._objects.pop() as fabric.Object));
     }
     editor.canvas.renderAll();
     handleSave();
@@ -81,12 +82,17 @@ export default function NotePage(props: NotePageProps) {
   const redo = () => {
     if (!editor) return;
     if (history.length > 0) {
-      editor.canvas.add(history.pop() as fabric.Object);
+      editor.canvas.add(history[history.length - 1] as fabric.Object);
+      const newHistory = [...history];
+      newHistory.pop();
+      setHistory(newHistory);
     }
+    editor.canvas.renderAll();
+
     handleSave();
   };
 
-  const toggleEaraser = () => {
+  const toggleEraser = () => {
     if (!editor) return;
     //@ts-expect-error EraserBrush is from the extended fabric library and needed additional installation
     editor.canvas.freeDrawingBrush = new fabric.EraserBrush(editor.canvas);
@@ -104,7 +110,7 @@ export default function NotePage(props: NotePageProps) {
     <>
       <NoteControls
         togglePenMode={togglePenMode}
-        toggleEraser={toggleEaraser}
+        toggleEraser={toggleEraser}
         toggleHighlighter={toggleHighlighter}
         changeColor={changeColor}
         undo={undo}
