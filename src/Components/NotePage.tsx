@@ -4,6 +4,7 @@ import { fabric } from "fabric";
 import { BaseBrush } from "fabric/fabric-impl";
 import "../styles/NotePage.css";
 import { useBottomScrollListener } from "react-bottom-scroll-listener";
+import NoteControls from "./NoteControls";
 
 interface NotePageProps {
   saveCallback: (data: string) => void;
@@ -49,6 +50,11 @@ export default function NotePage(props: NotePageProps) {
 
   const toggleHighlighter = () => {
     if (!editor) return;
+    if (!defaultBrush.current) return;
+
+    editor.canvas.freeDrawingBrush = new fabric.BaseBrush();
+    editor.canvas.isDrawingMode = true;
+    editor.canvas.freeDrawingBrush = defaultBrush.current;
     editor.canvas.freeDrawingBrush.color = "rgba(255, 251, 0, 0.32)";
     editor.canvas.freeDrawingBrush.width = 20;
   };
@@ -80,7 +86,7 @@ export default function NotePage(props: NotePageProps) {
     handleSave();
   };
 
-  const eraserMode = () => {
+  const toggleEaraser = () => {
     if (!editor) return;
     //@ts-expect-error EraserBrush is from the extended fabric library and needed additional installation
     editor.canvas.freeDrawingBrush = new fabric.EraserBrush(editor.canvas);
@@ -96,13 +102,15 @@ export default function NotePage(props: NotePageProps) {
 
   return (
     <>
-      <button onClick={togglePenMode}>add pen</button>
-      <button onClick={toggleHighlighter}>highlighter</button>
-      <button onClick={toggleSelect}>Toggle Select</button>
-      <button onClick={changeColor}>ChangeColor</button>
-      <button onClick={undo}>undo</button>
-      <button onClick={redo}>redo</button>
-      <button onClick={eraserMode}>erase</button>
+      <NoteControls
+        togglePenMode={togglePenMode}
+        toggleEraser={toggleEaraser}
+        toggleHighlighter={toggleHighlighter}
+        changeColor={changeColor}
+        undo={undo}
+        redo={redo}
+        toggleSelect={toggleSelect}
+      />
 
       <div id="note-page" onMouseUp={handleSave}>
         <FabricJSCanvas className="sample-canvas" onReady={onReady} />
